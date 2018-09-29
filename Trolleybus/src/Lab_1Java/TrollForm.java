@@ -102,7 +102,6 @@ public class TrollForm extends JFrame {
 				}
 
 				TrollForm.this.repaint();
-				// Draw();
 
 			}
 		});

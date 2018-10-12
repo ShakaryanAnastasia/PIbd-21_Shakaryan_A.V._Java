@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -17,7 +18,7 @@ import javax.swing.SwingConstants;
 public class TrollForm extends JFrame {
 
 	private JPanel contentPane;
-	private Trolleybus monorail;
+	private ITransport bus;
 
 	/**
 	 * Launch the application.
@@ -39,8 +40,8 @@ public class TrollForm extends JFrame {
 	public void paint(Graphics g) {
 		super.paint(g);
 		try {
-			if (monorail != null) {
-				monorail.drawMonorail(g);
+			if (bus != null) {
+				bus.DrawBus(g);
 			}
 		} catch (Exception ex) {
 
@@ -52,21 +53,21 @@ public class TrollForm extends JFrame {
 			String name = sender.getToolTipText();
 			switch (name) {
 			case "Up":
-				monorail.moveMonorail(Direction.Up);
+				bus.MoveTransport(Direction.Up);
 				break;
 			case "Down":
-				monorail.moveMonorail(Direction.Down);
+				bus.MoveTransport(Direction.Down);
 				break;
 			case "Left":
-				monorail.moveMonorail(Direction.Left);
+				bus.MoveTransport(Direction.Left);
 				break;
 			case "Right":
-				monorail.moveMonorail(Direction.Right);
+				bus.MoveTransport(Direction.Right);
 				break;
 			}
 			this.repaint();
 		} catch (Exception ex) {
-			System.out.print("Click on the button <Создать>! ");
+			System.out.print("Click on the button <Create @something@>! \n");
 		}
 	}
 
@@ -82,19 +83,19 @@ public class TrollForm extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton buttonCreate = new JButton("\u0421\u043E\u0437\u0434\u0430\u0442\u044C");
+		JButton buttonCreate = new JButton("Create Trolleybus");
 		buttonCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					monorail = new Trolleybus(100 + (int) (Math.random() * 300), 1000 + (int) (Math.random() * 2000),
-							Color.YELLOW, Color.BLACK);
+					bus = new Trolleybus(100 + (int) (Math.random() * 300), 1000 + (int) (Math.random() * 2000),
+							Color.YELLOW, Color.PINK, true, true);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
 				try {
-					monorail.setPosition(70 + (int) (Math.random() * 160), 70 + (int) (Math.random() * 160),
+					bus.SetPosition(70 + (int) (Math.random() * 160), 70 + (int) (Math.random() * 160),
 							TrollForm.this.getWidth(), TrollForm.this.getHeight());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -105,8 +106,31 @@ public class TrollForm extends JFrame {
 
 			}
 		});
-		buttonCreate.setBounds(10, 11, 89, 42);
+		buttonCreate.setBounds(10, 11, 150, 42);
 		contentPane.add(buttonCreate);
+		
+		JButton buttonCreateBase = new JButton("Create Bus");
+		buttonCreateBase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {				
+	            try {
+					bus = new Bus(100 + (int) (Math.random() * 300), 1000 + (int) (Math.random() * 2000), Color.YELLOW);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	            
+	            try {
+					bus.SetPosition(70 + (int) (Math.random() * 160), 70 + (int) (Math.random() * 160), TrollForm.this.getWidth(), TrollForm.this.getHeight());					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	            
+	            TrollForm.this.repaint();
+			}
+		});
+		buttonCreateBase.setBounds(170, 11, 150, 42);
+		contentPane.add(buttonCreateBase);
 
 		JButton buttonUp = new JButton("");
 		buttonUp.setToolTipText("Up");

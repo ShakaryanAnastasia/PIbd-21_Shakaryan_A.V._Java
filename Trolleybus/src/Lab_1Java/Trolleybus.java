@@ -66,7 +66,7 @@ public class Trolleybus extends Bus {
 		}
 		if (Accumulator) {
 			g.setColor(getDopColor());
-			g.fillRect((int) _startPosX - 10, (int) _startPosY + 10, 10, 25);
+			g.fillRect((int) _startPosX - 5, (int) _startPosY + 10, 5, 25);
 		}
 
 	}

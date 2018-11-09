@@ -93,7 +93,6 @@ public class TrollForm extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 				try {
 					bus.SetPosition(70 + (int) (Math.random() * 160), 70 + (int) (Math.random() * 160),
 							TrollForm.this.getWidth(), TrollForm.this.getHeight());
@@ -101,9 +100,7 @@ public class TrollForm extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 				TrollForm.this.repaint();
-
 			}
 		});
 		buttonCreate.setBounds(10, 11, 150, 42);
@@ -118,7 +115,6 @@ public class TrollForm extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 				try {
 					bus.SetPosition(70 + (int) (Math.random() * 160), 70 + (int) (Math.random() * 160),
 							TrollForm.this.getWidth(), TrollForm.this.getHeight());
@@ -126,7 +122,6 @@ public class TrollForm extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 				TrollForm.this.repaint();
 			}
 		});
@@ -177,5 +172,4 @@ public class TrollForm extends JFrame {
 		buttonRight.setBounds(590, 291, 65, 65);
 		contentPane.add(buttonRight);
 	}
-
 }

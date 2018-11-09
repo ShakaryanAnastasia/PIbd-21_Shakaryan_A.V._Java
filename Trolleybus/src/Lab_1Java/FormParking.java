@@ -77,7 +77,6 @@ public class FormParking extends JFrame {
 				Color secondColor = JColorChooser.showDialog(null, "Choose a Color", Color.WHITE);
 				bus = new Trolleybus(100 + (int) (Math.random() * 300), 1000 + (int) (Math.random() * 2000), firstColor,
 						secondColor, true, true);
-				;
 				int place = parking.getAt(list.getSelectedIndex()).addTransport(bus);
 				if (place == -1) {
 					JOptionPane.showMessageDialog(null, "Нет свободных мест");
@@ -125,7 +124,6 @@ public class FormParking extends JFrame {
 				if (list.getSelectedIndex() == -1) {
 					return;
 				}
-
 				int numberOfPlace = 0;
 				try {
 					numberOfPlace = Integer.parseInt(textField.getText());

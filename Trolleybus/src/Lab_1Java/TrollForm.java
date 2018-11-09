@@ -93,7 +93,6 @@ public class TrollForm extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 				try {
 					bus.SetPosition(70 + (int) (Math.random() * 160), 70 + (int) (Math.random() * 160),
 							TrollForm.this.getWidth(), TrollForm.this.getHeight());
@@ -101,32 +100,29 @@ public class TrollForm extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 				TrollForm.this.repaint();
-
 			}
 		});
 		buttonCreate.setBounds(10, 11, 150, 42);
 		contentPane.add(buttonCreate);
-		
+
 		JButton buttonCreateBase = new JButton("Create Bus");
 		buttonCreateBase.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {				
-	            try {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
 					bus = new Bus(100 + (int) (Math.random() * 300), 1000 + (int) (Math.random() * 2000), Color.YELLOW);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-	            
-	            try {
-					bus.SetPosition(70 + (int) (Math.random() * 160), 70 + (int) (Math.random() * 160), TrollForm.this.getWidth(), TrollForm.this.getHeight());					
+				try {
+					bus.SetPosition(70 + (int) (Math.random() * 160), 70 + (int) (Math.random() * 160),
+							TrollForm.this.getWidth(), TrollForm.this.getHeight());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-	            
-	            TrollForm.this.repaint();
+				TrollForm.this.repaint();
 			}
 		});
 		buttonCreateBase.setBounds(170, 11, 150, 42);
@@ -176,5 +172,4 @@ public class TrollForm extends JFrame {
 		buttonRight.setBounds(590, 291, 65, 65);
 		contentPane.add(buttonRight);
 	}
-
 }

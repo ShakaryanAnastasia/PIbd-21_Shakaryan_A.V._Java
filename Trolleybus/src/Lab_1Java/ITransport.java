@@ -8,5 +8,4 @@ public interface ITransport {
 	void MoveTransport(Direction direction);
 
 	void DrawBus(Graphics g);
-
 }

@@ -11,4 +11,7 @@ public interface ITransport {
 	void DrawBus(Graphics g);
 
 	void setMainColor(Color color);
+	
+	String getInfo();
+	
 }

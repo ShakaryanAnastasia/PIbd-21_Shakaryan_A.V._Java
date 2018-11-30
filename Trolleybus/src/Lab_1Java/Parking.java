@@ -41,7 +41,7 @@ public class Parking<T extends ITransport> {
 	}
 
 	public T removeTransport(int index) {
-		if (!checkFreePlace(index)) {
+		if (_places.get(index) != null) {
 			T bus = _places.get(index);
 			_places.remove(index);
 			return bus;
@@ -49,8 +49,19 @@ public class Parking<T extends ITransport> {
 		return null;
 	}
 
+	public T getBus(int index) {
+		if (_places.get(index) != null) {
+			return _places.get(index);
+		} else {
+			return null;
+		}
+	}
+
 	private boolean checkFreePlace(int index) {
-		return !_places.containsKey(index);
+		if (_places.get(index) == null) {
+			return true;
+		}
+		return false;
 	}
 
 	public void Draw(Graphics g) {

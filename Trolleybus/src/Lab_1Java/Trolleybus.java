@@ -2,6 +2,10 @@ package Lab_1Java;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Random;
 
 import Lab_1Java.Bus;
 
@@ -51,6 +55,20 @@ public class Trolleybus extends Bus {
 		Horns = horns;
 	}
 
+	public Trolleybus(String info) {
+		super(info);
+		String[] str = info.split(";");
+		if (str.length == 10) {
+			__MaxSpeed = Integer.parseInt(str[0]);
+			__Weight = Float.parseFloat(str[1]);
+			__MainColor = new Color(Integer.parseInt(str[2]), Integer.parseInt(str[3]), Integer.parseInt(str[4]));
+			__DopColor = new Color(Integer.parseInt(str[5]), Integer.parseInt(str[6]), Integer.parseInt(str[7]));
+			Accumulator = Boolean.parseBoolean(str[8]);
+			Horns = Boolean.parseBoolean(str[9]);
+
+		}
+	}
+
 	@Override
 	public void DrawBus(Graphics g) {
 		super.DrawBus(g);
@@ -63,5 +81,12 @@ public class Trolleybus extends Bus {
 			g.setColor(getDopColor());
 			g.fillRect((int) _startPosX - 5, (int) _startPosY + 10, 5, 25);
 		}
+	}
+
+	@Override
+	public String getInfo() {
+		return __MaxSpeed + ";" + __Weight + ";" + __MainColor.getRed() + ";" + __MainColor.getGreen() + ";"
+				+ __MainColor.getBlue() + ";" + __DopColor.getRed() + ";" + __DopColor.getGreen() + ";"
+				+ __DopColor.getBlue() + ";" + Accumulator + ";" + Horns;
 	}
 }

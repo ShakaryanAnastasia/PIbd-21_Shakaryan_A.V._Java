@@ -37,6 +37,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
+import javax.swing.border.LineBorder;
+import javax.swing.SwingConstants;
 
 public class BusConfig extends JDialog {
 
@@ -65,11 +67,15 @@ public class BusConfig extends JDialog {
 		this.getContentPane().setLayout(null);
 
 		JLabel lblBus = new JLabel("Bus");
-		lblBus.setBounds(10, 29, 58, 14);
+		lblBus.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblBus.setBounds(10, 29, 77, 25);
 		this.getContentPane().add(lblBus);
 
 		JLabel lblTrolleybus = new JLabel("Trolleybus");
-		lblTrolleybus.setBounds(10, 64, 160, 14);
+		lblTrolleybus.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTrolleybus.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblTrolleybus.setBounds(10, 64, 77, 25);
 		this.getContentPane().add(lblTrolleybus);
 
 		panel = new JPanel();
@@ -156,11 +162,15 @@ public class BusConfig extends JDialog {
 		});
 
 		JLabel lblMainColor = new JLabel("Main Color");
-		lblMainColor.setBounds(154, 116, 90, 27);
+		lblMainColor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMainColor.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblMainColor.setBounds(154, 132, 90, 25);
 		this.getContentPane().add(lblMainColor);
 
 		JLabel lblDopColor = new JLabel("Dop Color");
-		lblDopColor.setBounds(154, 154, 90, 27);
+		lblDopColor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDopColor.setBorder(new LineBorder(new Color(0, 0, 0)));
+		lblDopColor.setBounds(154, 167, 90, 23);
 		this.getContentPane().add(lblDopColor);
 
 		lblMainColor.setDropTarget(new DropTarget() {
@@ -307,7 +317,7 @@ public class BusConfig extends JDialog {
 		this.getContentPane().add(btnAdd);
 
 		JButton btnNO = new JButton("Cancel");
-		btnNO.setBounds(27, 187, 89, 23);
+		btnNO.setBounds(27, 187, 96, 23);
 		this.getContentPane().add(btnNO);
 		btnNO.addActionListener((ActionEvent e) -> {
 			r = false;

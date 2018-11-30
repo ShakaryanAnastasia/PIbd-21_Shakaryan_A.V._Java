@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -20,6 +22,10 @@ import java.awt.Font;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class FormParking extends JFrame {
 
@@ -64,7 +70,57 @@ public class FormParking extends JFrame {
 	@SuppressWarnings("unchecked")
 	public FormParking() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 912, 692);
+		setBounds(100, 100, 912, 715);
+
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+
+		JMenu menuFile = new JMenu("File");
+		menuBar.add(menuFile);
+
+		JMenuItem menuSave = new JMenuItem("Save");
+		menuSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser filesave = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("txt file", "txt");
+				filesave.setFileFilter(filter);
+				if (filesave.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+					File file = filesave.getSelectedFile();
+					String path = file.getAbsolutePath();
+					if (parking.SaveData(path)) {
+						JOptionPane.showMessageDialog(null, "Saved");
+						return;
+					} else {
+						JOptionPane.showMessageDialog(null, "Save failed", "", 0, null);
+					}
+				}
+			}
+		});
+		menuFile.add(menuSave);
+
+		JMenuItem menuLoad = new JMenuItem("Load");
+		menuLoad.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("txt file", "txt");
+				fileChooser.setFileFilter(filter);
+				if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+					File file = fileChooser.getSelectedFile();
+					try {
+						if (parking.load(file.getAbsolutePath())) {
+							JOptionPane.showMessageDialog(null, "Loaded");
+						} else {
+							JOptionPane.showMessageDialog(null, "Load failed", "", 0, null);
+						}
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(null, ex.getMessage(), "", 0, null);
+					}
+					contentPane.repaint();
+				}
+			}
+		});
+		menuFile.add(menuLoad);
+
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(250, 235, 215));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -129,7 +185,7 @@ public class FormParking extends JFrame {
 				if (list.getSelectedIndex() == -1) {
 					return;
 				}
-				int numberOfPlace = 0;
+				int numberOfPlace;
 				try {
 					numberOfPlace = Integer.parseInt(textField.getText());
 				} catch (Exception ex) {

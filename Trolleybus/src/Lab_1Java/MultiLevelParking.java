@@ -104,7 +104,7 @@ public class MultiLevelParking {
 		}
 	}
 
-	public boolean load(String filename) throws ParkingOverflowException, ParkingOccupiedPlaceException {
+	public boolean load(String filename) throws ParkingOverflowException, ParkingOccupiedPlaceException, ParkingAlreadyHaveException  {
 		File file = new File(filename);
 		if (!file.exists()) {
 			return false;
@@ -154,5 +154,8 @@ public class MultiLevelParking {
 		} catch (IOException ex) {
 			return false;
 		}
+	}
+	public void Sort() {
+		parkingStages.sort(null);
 	}
 }

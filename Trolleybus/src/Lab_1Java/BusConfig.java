@@ -132,11 +132,9 @@ public class BusConfig extends JDialog {
 
 					for (DataFlavor df : e.getTransferable().getTransferDataFlavors()) {
 						if (e.getTransferable().getTransferData(df) == "Bus") {
-							bus = new Bus(100 + (int) (Math.random() * 300), 1000 + (int) (Math.random() * 2000),
-									Color.WHITE);
+							bus = new Bus(100, 1000, Color.WHITE);
 						} else if (e.getTransferable().getTransferData(df) == "Trolleybus") {
-							bus = new Trolleybus(100 + (int) (Math.random() * 300), 1000 + (int) (Math.random() * 2000),
-									Color.WHITE, Color.BLACK, true, true);
+							bus = new Trolleybus(100, 1000, Color.WHITE, Color.BLACK, true, true);
 						}
 						draw(panel, bus);
 					}

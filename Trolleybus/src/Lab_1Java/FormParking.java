@@ -202,12 +202,12 @@ public class FormParking extends JFrame {
 		lblNewLabel.setBounds(10, 14, 50, 14);
 		panelGroupElements.add(lblNewLabel);
 
-		JPanelDraw panelTakeTank = new JPanelDraw();
-		panelTakeTank.setBounds(20, 73, 165, 103);
-		panelGroupElements.add(panelTakeTank);
+		JPanelDraw panelTakeBus = new JPanelDraw();
+		panelTakeBus.setBounds(20, 73, 165, 103);
+		panelGroupElements.add(panelTakeBus);
 
-		JButton buttonTakeTank = new JButton("Take");
-		buttonTakeTank.addActionListener(new ActionListener() {
+		JButton buttonTakeBus = new JButton("Take");
+		buttonTakeBus.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (list.getSelectedIndex() == -1) {
 					return;
@@ -216,7 +216,7 @@ public class FormParking extends JFrame {
 				try {
 					numberOfPlace = Integer.parseInt(textField.getText());
 					bus = parking.getAt(list.getSelectedIndex()).removeTransport(numberOfPlace);
-					bus.SetPosition(10, 35, panelTakeTank.getWidth(), panelTakeTank.getHeight());
+					bus.SetPosition(10, 35, panelTakeBus.getWidth(), panelTakeBus.getHeight());
 				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null, "Wrong format", "Error", 0, null);
 					return;
@@ -227,14 +227,14 @@ public class FormParking extends JFrame {
 					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", 0, null);
 					return;
 				}
-				panelTakeTank.setTransport(bus);
-				panelTakeTank.repaint();
+				panelTakeBus.setTransport(bus);
+				panelTakeBus.repaint();
 				panelParking.repaint();
 				log.log(Level.INFO, "Took the bus from parking in place {0}", numberOfPlace);
 			}
 		});
-		buttonTakeTank.setBounds(20, 39, 176, 23);
-		panelGroupElements.add(buttonTakeTank);
+		buttonTakeBus.setBounds(20, 39, 176, 23);
+		panelGroupElements.add(buttonTakeBus);
 
 		textField = new JTextField();
 		textField.setBounds(60, 11, 136, 20);
@@ -249,6 +249,16 @@ public class FormParking extends JFrame {
 		});
 		btnAdd.setBounds(665, 390, 206, 38);
 		contentPane.add(btnAdd);
+
+		JButton btnSort = new JButton("Sort");
+		btnSort.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				parking.Sort();
+				contentPane.repaint();
+			}
+		});
+		btnSort.setBounds(716, 207, 96, 34);
+		contentPane.add(btnSort);
 	}
 
 	public void getBus() {
@@ -264,6 +274,10 @@ public class FormParking extends JFrame {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", 0, null);
 			return;
 		} catch (ParkingOccupiedPlaceException e) {
+
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", 0, null);
+			return;
+		} catch (ParkingAlreadyHaveException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", 0, null);
 			return;
 		}

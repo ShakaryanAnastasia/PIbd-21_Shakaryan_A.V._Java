@@ -2,15 +2,16 @@ package Lab_1Java;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.Random;
 
-public class Bus extends Vehicle {
+public class Bus extends Vehicle implements Serializable, Comparable<Bus> {
 
 	protected final int carWidth = 100;
 
 	protected final int carHeight = 60;
 
-	public Bus(int maxSpeed, float weight, Color mainColor) {
+	public Bus(int maxSpeed, int weight, Color mainColor) {
 		__MaxSpeed = maxSpeed;
 		__Weight = weight;
 		__MainColor = mainColor;
@@ -20,7 +21,7 @@ public class Bus extends Vehicle {
 		String[] str = info.split(";");
 		if (str.length == 5) {
 			__MaxSpeed = Integer.parseInt(str[0]);
-			__Weight = Float.parseFloat(str[1]);
+			__Weight = Integer.parseInt(str[1]);
 			__MainColor = new Color(Integer.parseInt(str[2]), Integer.parseInt(str[3]), Integer.parseInt(str[4]));
 		}
 	}
@@ -68,5 +69,50 @@ public class Bus extends Vehicle {
 	public String getInfo() {
 		return __MaxSpeed + ";" + __Weight + ";" + __MainColor.getRed() + ";" + __MainColor.getGreen() + ";"
 				+ __MainColor.getBlue();
+	}
+
+	@Override
+	public int compareTo(Bus another) {
+		if (another == null) {
+			return 1;
+		}
+		if (__MaxSpeed != another.__MaxSpeed) {
+			return Integer.valueOf(__MaxSpeed).compareTo(another.__MaxSpeed);
+		}
+		if (__Weight != another.__Weight) {
+			return Integer.valueOf(__Weight).compareTo(another.__Weight);
+		}
+		if (__MainColor != another.__MainColor) {
+			return Integer.valueOf(__MainColor.getRGB()).compareTo(another.__MainColor.getRGB());
+		}
+		return 0;
+	}
+
+	@Override
+	public boolean equals(Object another) {
+		if (another == null) {
+			return false;
+		}
+		if (!(another instanceof Bus)) {
+			return false;
+		}
+		Bus tank = (Bus) another;
+		return equals(tank);
+	}
+
+	public boolean equals(Bus another) {
+		if (another == null) {
+			return false;
+		}
+		if (__MaxSpeed != another.__MaxSpeed) {
+			return false;
+		}
+		if (__Weight != another.__Weight) {
+			return false;
+		}
+		if (__MainColor != another.__MainColor) {
+			return false;
+		}
+		return true;
 	}
 }

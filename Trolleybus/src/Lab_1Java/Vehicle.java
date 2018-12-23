@@ -32,13 +32,13 @@ public abstract class Vehicle implements ITransport {
 		__MaxSpeed = value;
 	}
 
-	public float __Weight;
+	public int __Weight;
 
-	public float getWeight() {
+	public int getWeight() {
 		return __Weight;
 	}
 
-	public void setWeight(float value) {
+	public void setWeight(int value) {
 		__Weight = value;
 	}
 

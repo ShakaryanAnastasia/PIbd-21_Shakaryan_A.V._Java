@@ -5,7 +5,12 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -47,6 +52,9 @@ public class FormParking extends JFrame {
 
 	BusConfig select;
 	private String[] elements = new String[6];
+	private Logger log;
+
+	private String logPath = "C:\\Users\\anast\\Desktop\\log.txt";
 
 	/**
 	 * Launch the application.
@@ -67,8 +75,24 @@ public class FormParking extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	@SuppressWarnings("unchecked")
 	public FormParking() {
+		log = Logger.getLogger(FormParking.class.getName());
+
+		try {
+			FileInputStream fis = new FileInputStream("p.properties");
+			LogManager.getLogManager().readConfiguration(fis);
+			FileHandler fh = null;
+			fh = new FileHandler(logPath);
+			log.addHandler(fh);
+			log.setUseParentHandlers(false);
+			fis.close();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 912, 715);
 
@@ -86,8 +110,8 @@ public class FormParking extends JFrame {
 				filesave.setFileFilter(filter);
 				if (filesave.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 					File file = filesave.getSelectedFile();
-					String path = file.getAbsolutePath();
-					if (parking.SaveData(path)) {
+					if (parking.SaveData(file.getAbsolutePath())) {
+						log.log(Level.INFO, "Saved the parking in " + file.getAbsolutePath());
 						JOptionPane.showMessageDialog(null, "Saved");
 						return;
 					} else {
@@ -108,6 +132,7 @@ public class FormParking extends JFrame {
 					File file = fileChooser.getSelectedFile();
 					try {
 						if (parking.load(file.getAbsolutePath())) {
+							log.log(Level.INFO, "Loaded the parking from " + file.getAbsolutePath());
 							JOptionPane.showMessageDialog(null, "Loaded");
 						} else {
 							JOptionPane.showMessageDialog(null, "Load failed", "", 0, null);
@@ -138,7 +163,8 @@ public class FormParking extends JFrame {
 		JButton btnLevelDown = new JButton("Down");
 		btnLevelDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				parking.levelDown();
+				if (parking.levelDown())
+					log.log(Level.INFO, "Moved to the {0} parking level", parking.getCurrentLevel() + 1);
 				list.setSelectedIndex(parking.getCurrentLevel());
 				panelParking.repaint();
 			}
@@ -149,7 +175,8 @@ public class FormParking extends JFrame {
 		JButton btnLevelUp = new JButton("Up");
 		btnLevelUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				parking.levelUp();
+				if (parking.levelUp())
+					log.log(Level.INFO, "Moved to the {0} parking level", parking.getCurrentLevel() + 1);
 				list.setSelectedIndex(parking.getCurrentLevel());
 				panelParking.repaint();
 			}
@@ -188,21 +215,22 @@ public class FormParking extends JFrame {
 				int numberOfPlace;
 				try {
 					numberOfPlace = Integer.parseInt(textField.getText());
-				} catch (Exception ex) {
-					textField.setText("Invalid input");
-					return;
-				}
-				if (numberOfPlace >= parking.getAt(list.getSelectedIndex())._places.size() || numberOfPlace < 0) {
-					textField.setText("Invalid input");
-					return;
-				}
-				bus = parking.getAt(list.getSelectedIndex()).removeTransport(numberOfPlace);
-				if (bus != null) {
+					bus = parking.getAt(list.getSelectedIndex()).removeTransport(numberOfPlace);
 					bus.SetPosition(10, 35, panelTakeTank.getWidth(), panelTakeTank.getHeight());
+				} catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(null, "Wrong format", "Error", 0, null);
+					return;
+				} catch (NullPointerException e) {
+					JOptionPane.showMessageDialog(null, "Empty", "Error", 0, null);
+					return;
+				} catch (ParkingNotFoundException e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", 0, null);
+					return;
 				}
 				panelTakeTank.setTransport(bus);
 				panelTakeTank.repaint();
 				panelParking.repaint();
+				log.log(Level.INFO, "Took the bus from parking in place {0}", numberOfPlace);
 			}
 		});
 		buttonTakeTank.setBounds(20, 39, 176, 23);
@@ -225,15 +253,19 @@ public class FormParking extends JFrame {
 
 	public void getBus() {
 		select = new BusConfig(frame);
-		if (select.res()) {
-			ITransport bus = select.getBus();
-			if (bus != null) {
+		try {
+			if (select.res()) {
+				ITransport bus = select.getBus();
 				int place = parking.getAt(list.getSelectedIndex()).addTransport(bus);
-				if (place < 0) {
-					JOptionPane.showMessageDialog(null, "No free places");
-				}
+				contentPane.repaint();
+				log.log(Level.INFO, "Added new bus. It's place " + place);
 			}
-			contentPane.repaint();
+		} catch (ParkingOverflowException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", 0, null);
+			return;
+		} catch (ParkingOccupiedPlaceException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), "Error", 0, null);
+			return;
 		}
 	}
 }

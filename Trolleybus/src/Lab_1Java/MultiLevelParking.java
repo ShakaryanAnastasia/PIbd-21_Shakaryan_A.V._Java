@@ -45,14 +45,20 @@ public class MultiLevelParking {
 		return currentLevel;
 	}
 
-	public void levelUp() {
-		if (currentLevel + 1 < parkingStages.size())
+	public boolean levelUp() {
+		if (currentLevel + 1 < parkingStages.size()) {
 			currentLevel++;
+			return true;
+		}
+		return false;
 	}
 
-	public void levelDown() {
-		if (currentLevel > 0)
+	public boolean levelDown() {
+		if (currentLevel > 0) {
 			currentLevel--;
+			return true;
+		}
+		return false;
 	}
 
 	public boolean SaveData(String filename) {
@@ -98,7 +104,7 @@ public class MultiLevelParking {
 		}
 	}
 
-	public boolean load(String filename) {
+	public boolean load(String filename) throws ParkingOverflowException, ParkingOccupiedPlaceException {
 		File file = new File(filename);
 		if (!file.exists()) {
 			return false;

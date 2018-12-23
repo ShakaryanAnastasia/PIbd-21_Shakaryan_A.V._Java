@@ -25,9 +25,9 @@ public class Parking<T extends ITransport> {
 		this._pictureHeight = pictureHeight;
 	}
 
-	public int addTransport(T transport) {
+	public int addTransport(T transport) throws ParkingOverflowException, ParkingOccupiedPlaceException {
 		if (_places.size() == _maxCount) {
-			return -1;
+			throw new ParkingOverflowException();
 		}
 		for (int i = 0; i < _maxCount; i++) {
 			if (checkFreePlace(i)) {
@@ -37,16 +37,16 @@ public class Parking<T extends ITransport> {
 				return i;
 			}
 		}
-		return -1;
+		throw new ParkingOccupiedPlaceException();
 	}
 
-	public T removeTransport(int index) {
+	public T removeTransport(int index) throws ParkingNotFoundException {
 		if (_places.get(index) != null) {
 			T bus = _places.get(index);
 			_places.remove(index);
 			return bus;
 		}
-		return null;
+		throw new ParkingNotFoundException();
 	}
 
 	public T getBus(int index) {
